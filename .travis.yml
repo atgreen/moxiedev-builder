@@ -7,7 +7,8 @@ services:
 
 before_install:
   - docker build -f Dockerfile -t atgreen/moxielogic-repos .
-  - docker run --rm -t -i -v `pwd`:/opt atgreen/moxielogic-repos /root/build.sh
+  - mkdir MoxieLogic
+  - docker run --rm -t -i -v `pwd`:/usr/local atgreen/moxielogic-repos /root/build.sh
 
 script:
 - 
