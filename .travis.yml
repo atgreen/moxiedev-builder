@@ -6,9 +6,8 @@ services:
   - docker
 
 before_install:
-  - docker pull atgreen/moxielogic-repos
-  - docker run --rm -t -i -v `pwd`:/opt atgreen/moxielogic-repos ls -l /var/www/html
-  - ls -l
+  - docker build -f Dockerfile -t atgreen/moxielogic-repos .
+  - docker run --rm -t -i -v `pwd`:/opt atgreen/moxielogic-repos /root/build.sh
 
 script:
 - 
