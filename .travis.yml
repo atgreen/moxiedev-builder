@@ -7,7 +7,7 @@ services:
 
 before_install:
   - docker pull atgreen/moxielogic-repos
-  - docker run --rm -t -i -v `pwd`:/opt atgreen/moxielogic-repos cp /var/www/html/moxielogic-moxie-elf* /opt
+  - docker run --rm -t -i -v `pwd`:/opt atgreen/moxielogic-repos ls -l /var/www/html
   - ls -l
 
 script:
