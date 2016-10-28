@@ -6,8 +6,8 @@ services:
   - docker
 
 before_install:
-  - docker run -v -p 80:8765 `pwd`:/opt atgreen/moxiedev-repos
-  - ping locahost
+  - docker run --rm -t -i -v `pwd`:/opt atgreen/moxiedev-repos cp /var/www/html/moxielogic-moxie-elf* /opt
+  - ls -l
 
 script:
 - 
