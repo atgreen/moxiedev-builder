@@ -7,6 +7,7 @@ RUN dnf -y install \
     mpfr-devel gmp-devel libmpc-devel flex bison zlib-devel \
     python-devel texinfo ncurses-devel createrepo gperf
 
+ADD MoxieLogic.repo /etc/yum.repos.d/MoxieLogic.repo
 ADD build.sh /root/build.sh
-RUN /root/build.sh
+#RUN /root/build.sh
 CMD bash

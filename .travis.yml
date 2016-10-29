@@ -9,6 +9,14 @@ before_install:
   - docker build -f Dockerfile -t atgreen/moxielogic-repos .
   - mkdir MoxieLogic
   - docker run --rm -t -i -v `pwd`:/usr/local atgreen/moxielogic-repos /root/build.sh
+  - docker build -f Dockerfile.next -f atgreen/moxielogic-repos .
 
 script:
-- 
+  -
+
+after_success:
+  - if [ "$TRAVIS_BRANCH" == "master" ]; then
+      docker login -e="$DOCKER_EMAIL" -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD";
+      docker push atgreen/moxielogic-repos;
+    fi
+
