@@ -7,9 +7,10 @@ services:
 
 cache:
   directories:
-    - $HOME/MoxieLogic
+    - `pwd`/MoxieLogic
   before_cache:
-    - find $HOME/MoxieLogic
+    - pwd
+    - find `pwd`/MoxieLogic
 
 before_install:
   - if ! test -d MoxieLogic; then mkdir MoxieLogic; fi
