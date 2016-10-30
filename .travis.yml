@@ -5,13 +5,18 @@ language: c
 services:
   - docker
 
+cache:
+  directories:
+    - $HOME/MoxieLogic
+  before_cache:
+    - find $HOME/MoxieLogic
+
 before_install:
+  - if ! test -d MoxieLogic; then mkdir MoxieLogic; fi
+  - find MoxieLogic
   - docker build -f Dockerfile -t atgreen/moxielogic-repos .
-  - mkdir MoxieLogic
   - docker run --rm -t -i -v `pwd`:/usr/local atgreen/moxielogic-repos /root/build.sh
-  - ls -l
-  - ls -l MoxieLogic
-  - docker build -f Dockerfile.next -t atgreen/moxielogic-repos .
+  - find MoxieLogic
 
 script:
   -
