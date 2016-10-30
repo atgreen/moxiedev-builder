@@ -28,7 +28,7 @@ else
 
   else
 
-      RPMCHECK=`find $REPODIR/x86_64 -name gcc-*`
+      RPMCHECK=`find $REPODIR/x86_64 -name moxielogic-*gcc-*`
       if test -z "$RPMCHECK"; then
 
 	yum install -y moxielogic-moxie-elf-newlib moxielogic-moxie-elf-binutils;
