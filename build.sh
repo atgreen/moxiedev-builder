@@ -19,7 +19,7 @@ else
   RPMCHECK=`find $REPODIR/x86_64 -name bootstrap-*`
   if test -z $RPMCHECK; then
 
-    yum install moxielogic-moxie-elf-binutils
+    yum install -y moxielogic-moxie-elf-binutils
     rpmbuild --rebuild $SRPMSDIR/bootstrap-$i-gcc*src.rpm;
     rpm -hiv /root/rpmbuild/RPMS/x86_64/bootstrap*
     rpmbuild --rebuild dist/moxielogic-$i-newlib*src.rpm;
