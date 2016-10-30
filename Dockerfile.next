@@ -1,7 +1,0 @@
-FROM atgreen/moxielogic-repos
-
-MAINTAINER green@moxielogic.org
-
-ADD MoxieLogic /usr/local/MoxieLogic
-
-CMD bash

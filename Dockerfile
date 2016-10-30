@@ -9,5 +9,4 @@ RUN dnf -y install \
 
 ADD Moxie_Logic.repo /etc/yum.repos.d/Moxie_Logic.repo
 ADD build.sh /root/build.sh
-#RUN /root/build.sh
 CMD bash

@@ -1,4 +1,4 @@
-#!/bin/sh
+https://www.emacswiki.org/emacs/TrampMode#!/bin/sh
 
 SRPMDIR=/var/www/html/
 REPODIR=/usr/local/MoxieLogic
@@ -35,6 +35,9 @@ else
 	yum install -y moxielogic-moxie-elf-newlib moxielogic-moxie-elf-binutils;
         rpmbuild --rebuild $SRPMDIR/moxielogic-moxie-elf-gcc*src.rpm;
 	mv /root/rpmbuild/RPMS/x86_64/* $REPODIR/x86_64;
+
+	# Indicate the we are all done.
+	touch $REPODIR/.done
 
       fi
   fi
