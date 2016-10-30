@@ -5,8 +5,10 @@ REPODIR=/usr/local/MoxieLogic
 
 mkdir -p $REPODIR/x86_64
 
+echo "BUILD SCRIPT"
+
 RPMCHECK=`find $REPODIR/x86_64 -name moxielogic-*binutils*`
-if ! test -z $RPMCHECK; then
+if test -z $RPMCHECK; then
 
   rpmbuild --rebuild $SRPMDIR/moxielogic-moxie-elf-binutils*src.rpm;
   rpmbuild --rebuild $SRPMDIR/moxielogic-moxie-elf-gdb*src.rpm;
@@ -15,7 +17,7 @@ if ! test -z $RPMCHECK; then
 else
 
   RPMCHECK=`find $REPODIR/x86_64 -name bootstrap-*`
-  if ! test -z $RPMCHECK; then
+  if test -z $RPMCHECK; then
 
     yum install moxielogic-moxie-elf-binutils
     rpmbuild --rebuild $SRPMSDIR/bootstrap-$i-gcc*src.rpm;
