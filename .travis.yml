@@ -9,6 +9,8 @@ before_install:
   - docker build -f Dockerfile -t atgreen/moxielogic-repos .
   - mkdir MoxieLogic
   - docker run --rm -t -i -v `pwd`:/usr/local atgreen/moxielogic-repos /root/build.sh
+  - ls -l
+  - ls -l MoxieLogic
   - docker build -f Dockerfile.next -f atgreen/moxielogic-repos .
 
 script:
