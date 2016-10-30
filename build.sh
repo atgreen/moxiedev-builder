@@ -20,9 +20,9 @@ else
   if test -z $RPMCHECK; then
 
     yum install -y moxielogic-moxie-elf-binutils
-    rpmbuild --rebuild $SRPMDIR/bootstrap-$i-gcc*src.rpm;
+    rpmbuild --rebuild $SRPMDIR/bootstrap-moxie-elf-gcc*src.rpm;
     rpm -hiv /root/rpmbuild/RPMS/x86_64/bootstrap*
-    rpmbuild --rebuild dist/moxielogic-$i-newlib*src.rpm;
+    rpmbuild --rebuild dist/moxielogic-moxie-elf-newlib*src.rpm;
     mv /root/rpmbuild/RPMS/x86_64/* $REPODIR/x86_64
     mv /root/rpmbuild/RPMS/noarch/* $REPODIR/noarch
     
