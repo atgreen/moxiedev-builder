@@ -4,6 +4,7 @@ SRPMDIR=/var/www/html/
 REPODIR=/usr/local/MoxieLogic
 
 mkdir -p $REPODIR/x86_64
+mkdir -p $REPODIR/noarch
 
 echo "BUILD SCRIPT"
 
@@ -16,14 +17,14 @@ if test -z "$RPMCHECK"; then
 
 else
 
-  RPMCHECK=`find $REPODIR/x86_64 -name bootstrap-*`
+  RPMCHECK=`find $REPODIR/noarch -name moxielogic-*newlib*`
   if test -z "$RPMCHECK"; then
 
     yum install -y moxielogic-moxie-elf-binutils;
     rpmbuild --rebuild $SRPMDIR/bootstrap-moxie-elf-gcc*src.rpm;
     rpm -hiv /root/rpmbuild/RPMS/x86_64/bootstrap*
     rpmbuild --rebuild dist/moxielogic-moxie-elf-newlib*src.rpm;
-    mv /root/rpmbuild/RPMS/x86_64/* $REPODIR/x86_64
+#    mv /root/rpmbuild/RPMS/x86_64/* $REPODIR/x86_64
     mv /root/rpmbuild/RPMS/noarch/* $REPODIR/noarch
 
   else
