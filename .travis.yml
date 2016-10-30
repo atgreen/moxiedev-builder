@@ -7,20 +7,19 @@ services:
 
 cache:
   directories:
-    - `pwd`/MoxieLogic
+    - $HOME/MoxieLogic
   before_cache:
-    - pwd
-    - find `pwd`/MoxieLogic
+    - $HOME/MoxieLogic
 
 before_install:
-  - if ! test -d MoxieLogic; then mkdir MoxieLogic; fi
+  - if ! test -d $HOME/MoxieLogic; then mkdir $HOME/MoxieLogic; fi
   - pwd
-  - ls -ld MoxieLogic
-  - ls -l MoxieLogic
-  - find MoxieLogic -type f
+  - ls -ld $HOME/MoxieLogic
+  - ls -l $HOME/MoxieLogic
+  - find $HOME/MoxieLogic -type f
   - docker build -f Dockerfile -t atgreen/moxielogic-repos .
-  - docker run --rm -t -i -v `pwd`:/usr/local atgreen/moxielogic-repos /root/build.sh
-  - find MoxieLogic -type f
+  - docker run --rm -t -i -v $HOME:/usr/local atgreen/moxielogic-repos /root/build.sh
+  - find $HOME/MoxieLogic -type f
 
 script:
   -
