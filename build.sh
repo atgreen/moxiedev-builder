@@ -20,12 +20,17 @@ for TARGET in moxie-elf moxiebox moxie-rtems; do
   
     RPMCHECK=`find $REPODIR/noarch -name moxielogic-$TARGET-newlib*`
     if test -z "$RPMCHECK"; then
-  
+
       dnf install -y moxielogic-$TARGET-binutils;
-      rpmbuild --rebuild $SRPMDIR/bootstrap-$TARGET-gcc*src.rpm;
-      rpm -hiv root/rpmbuild/RPMS/x86_64/bootstrap-$TARGET-*
+
+      if test "$TARGET" == "moxie-elf"; then
+        rpmbuild --rebuild $SRPMDIR/bootstrap-moxie-elf-gcc*src.rpm;
+        mv /root/rpmbuild/RPMS/x86_64/* $REPODIR/x86_64;
+        createrepo $REPODIR;
+      fi
+
+      dnf install -y bootstrap-moxie-elf-gcc
       rpmbuild --rebuild $SRPMDIR/moxielogic-$TARGET-newlib*src.rpm;
-      mv /root/rpmbuild/RPMS/x86_64/* $REPODIR/x86_64
       mv /root/rpmbuild/RPMS/noarch/* $REPODIR/noarch
       createrepo $REPODIR ; exit;
   
