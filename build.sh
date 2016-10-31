@@ -23,8 +23,7 @@ for TARGET in moxie-elf moxiebox moxie-rtems; do
   
       dnf install -y moxielogic-$TARGET-binutils;
       rpmbuild --rebuild $SRPMDIR/bootstrap-$TARGET-gcc*src.rpm;
-      rpm -hiv root/rpmbuild/RPMS/x86_64/moxielogic-moxie-elf-gcc-fsf-man-pages* \
-	       root/rpmbuild/RPMS/x86_64/bootstrap-$TARGET-*
+      rpm -hiv root/rpmbuild/RPMS/x86_64/bootstrap-$TARGET-*
       rpmbuild --rebuild $SRPMDIR/moxielogic-$TARGET-newlib*src.rpm;
       mv /root/rpmbuild/RPMS/x86_64/* $REPODIR/x86_64
       mv /root/rpmbuild/RPMS/noarch/* $REPODIR/noarch
