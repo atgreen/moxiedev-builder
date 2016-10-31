@@ -21,7 +21,7 @@ before_install:
   - docker run --rm -t -i -v $HOME:/usr/local atgreen/moxielogic-repos /root/build.sh
   - find $HOME/MoxieLogic -type f
   - if test -f $HOME/MoxieLogic/.done; then
-      mv $HOME/MoxieLogic .
+      mv $HOME/MoxieLogic .;
       docker build -f Dockerfile.repos -t atgreen/moxielogic-repos .;
     fi;
 
