@@ -1,4 +1,4 @@
-https://www.emacswiki.org/emacs/TrampMode#!/bin/sh
+#!/bin/sh
 
 SRPMDIR=/var/www/html/
 REPODIR=/usr/local/MoxieLogic
