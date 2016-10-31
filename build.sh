@@ -3,47 +3,49 @@
 SRPMDIR=/var/www/html/
 REPODIR=/usr/local/MoxieLogic
 
-mkdir -p $REPODIR/x86_64
-mkdir -p $REPODIR/noarch
+if ! test -f $REPODIR/x86_64; then mkdir -p $REPODIR/x86_64; fi
+if ! test -f $REPODIR/noarch; then mkdir -p $REPODIR/noarch; fi
 
-echo "BUILD SCRIPT"
+for TARGET in moxie-elf moxiebox moxie-rtems; do
 
-RPMCHECK=`find $REPODIR/x86_64 -name moxielogic-*binutils*`
-if test -z "$RPMCHECK"; then
-
-  rpmbuild --rebuild $SRPMDIR/moxielogic-moxie-elf-binutils*src.rpm;
-  rpmbuild --rebuild $SRPMDIR/moxielogic-moxie-elf-gdb*src.rpm;
-  mv /root/rpmbuild/RPMS/x86_64/* $REPODIR/x86_64
-
-else
-
-  RPMCHECK=`find $REPODIR/noarch -name moxielogic-*newlib*`
+  RPMCHECK=`find $REPODIR/x86_64 -name moxielogic-$TARGET-binutils*`
   if test -z "$RPMCHECK"; then
-
-    yum install -y moxielogic-moxie-elf-binutils;
-    rpmbuild --rebuild $SRPMDIR/bootstrap-moxie-elf-gcc*src.rpm;
-    rpm -hiv /root/rpmbuild/RPMS/x86_64/bootstrap*
-    rpmbuild --rebuild $SRPMDIR/moxielogic-moxie-elf-newlib*src.rpm;
+  
+    rpmbuild --rebuild $SRPMDIR/moxielogic-$TARGET-binutils*src.rpm;
+    rpmbuild --rebuild $SRPMDIR/moxielogic-$TARGET-gdb*src.rpm;
     mv /root/rpmbuild/RPMS/x86_64/* $REPODIR/x86_64
-    mv /root/rpmbuild/RPMS/noarch/* $REPODIR/noarch
-
+    createrepo $REPODIR ; exit;
+    
   else
-
-      RPMCHECK=`find $REPODIR/x86_64 -name moxielogic-*gcc-*`
+  
+    RPMCHECK=`find $REPODIR/noarch -name moxielogic-$TARGET-newlib*`
+    if test -z "$RPMCHECK"; then
+  
+      yum install -y moxielogic-$TARGET-binutils;
+      rpmbuild --rebuild $SRPMDIR/bootstrap-$TARGET-gcc*src.rpm;
+      rpm -hiv /root/rpmbuild/RPMS/x86_64/bootstrap-$TARGET-*
+      rpmbuild --rebuild $SRPMDIR/moxielogic-$TARGET-newlib*src.rpm;
+      mv /root/rpmbuild/RPMS/x86_64/* $REPODIR/x86_64
+      mv /root/rpmbuild/RPMS/noarch/* $REPODIR/noarch
+      createrepo $REPODIR ; exit;
+  
+    else
+  
+      RPMCHECK=`find $REPODIR/x86_64 -name moxielogic-$TARGET-gcc-*`
       if test -z "$RPMCHECK"; then
-
-	yum install -y moxielogic-moxie-elf-newlib moxielogic-moxie-elf-binutils;
-        rpmbuild --rebuild $SRPMDIR/moxielogic-moxie-elf-gcc*src.rpm;
-	mv /root/rpmbuild/RPMS/x86_64/* $REPODIR/x86_64;
-
-	# Indicate the we are all done.
-	touch $REPODIR/.done
-
+  
+        yum install -y moxielogic-$TARGET-newlib moxielogic-$TARGET-binutils;
+        rpmbuild --rebuild $SRPMDIR/moxielogic-$TARGET-gcc*src.rpm;
+  	mv /root/rpmbuild/RPMS/x86_64/* $REPODIR/x86_64;
+	createrepo $REPODIR ; exit;
+  
       fi
+    fi
   fi
+done
+  
+# Indicate that we are all done.
+touch $REPODIR/.done
 
-fi
-
-createrepo $REPODIR	
-	
+  
 
