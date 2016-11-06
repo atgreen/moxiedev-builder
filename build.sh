@@ -36,14 +36,12 @@ for TARGET in moxie-elf moxiebox moxie-rtems; do
   
     else
   
-      if test "$TARGET" != "moxie-rtems"; then
-        RPMCHECK=`find $REPODIR/x86_64 -name moxielogic-$TARGET-gcc-*`
-        if test -z "$RPMCHECK"; then
-          dnf install -y moxielogic-$TARGET-newlib moxielogic-$TARGET-binutils;
-          rpmbuild --rebuild $SRPMDIR/moxielogic-$TARGET-gcc*src.rpm;
-  	  mv /root/rpmbuild/RPMS/x86_64/* $REPODIR/x86_64;
-	  createrepo $REPODIR ; exit;
-	fi
+      RPMCHECK=`find $REPODIR/x86_64 -name moxielogic-$TARGET-gcc-*`
+      if test -z "$RPMCHECK"; then
+        dnf install -y moxielogic-$TARGET-newlib moxielogic-$TARGET-binutils;
+        rpmbuild --rebuild $SRPMDIR/moxielogic-$TARGET-gcc*src.rpm;
+	mv /root/rpmbuild/RPMS/x86_64/* $REPODIR/x86_64;
+	createrepo $REPODIR ; exit;
       fi
 
     fi
