@@ -5,6 +5,13 @@ language: c
 services:
   - docker
 
+matrix:
+  include:
+    - os: linux
+      env: OS=f24
+    - os: linux
+      env: OS=el7
+
 cache:
   directories:
     - $HOME/MoxieLogic
@@ -13,16 +20,14 @@ cache:
 
 before_install:
   - if ! test -d $HOME/MoxieLogic; then mkdir $HOME/MoxieLogic; fi
-  - pwd
-  - ls -ld $HOME/MoxieLogic
-  - ls -l $HOME/MoxieLogic
   - find $HOME/MoxieLogic -type f
-  - docker build -f Dockerfile -t atgreen/moxielogic-builder-f24 .
-  - docker run --rm -t -i -v $HOME:/usr/local atgreen/moxielogic-builder-f24 /root/build.sh
+  - cat Dockerfile.in | sed -e s/@OS@/$OS/ > Dockerfile
+  - docker build -f Dockerfile -t atgreen/moxielogic-builder-$OS .
+  - docker run --rm -t -i -v $HOME:/usr/local atgreen/moxielogic-builder-$OS /root/build.sh
   - find $HOME/MoxieLogic -type f
   - if test -f $HOME/MoxieLogic/.done; then
       mv $HOME/MoxieLogic .;
-      docker build -f Dockerfile.repos -t atgreen/moxielogic-repos .;
+      docker build -f Dockerfile.repos -t atgreen/moxielogic-repos-$OS .;
     fi;
 
 script:
@@ -31,7 +36,7 @@ script:
 after_success:
   - if test -f MoxieLogic/.done; then
       docker login -e="$DOCKER_EMAIL" -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD";
-      docker push atgreen/moxielogic-repos;
+      docker push atgreen/moxielogic-repos-$OS;
     else
       ./.trigger;
     fi;

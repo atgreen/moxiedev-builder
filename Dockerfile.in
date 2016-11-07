@@ -1,4 +1,4 @@
-FROM atgreen/moxielogic-builder-f24
+FROM atgreen/moxielogic-builder-@OS@
 
 MAINTAINER green@moxielogic.org
 
