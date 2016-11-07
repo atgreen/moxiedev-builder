@@ -2,15 +2,14 @@ sudo: required
 
 language: c
 
-services:
-  - docker
-
 matrix:
   include:
     - os: linux
       env: OS=f24
+      services: docker
     - os: linux
       env: OS=el7
+      services: docker
 
 cache:
   directories:
