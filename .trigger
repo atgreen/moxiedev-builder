@@ -11,4 +11,4 @@ curl -s -X POST \
      -H "Travis-API-Version: 3" \
      -H "Authorization: token $TRAVIS_TOKEN" \
      -d "$body" \
-     https://api.travis-ci.org/repo/atgreen%2Fmoxiedev-builder/requests
+     https://api.travis-ci.org/repo/atgreen%2Fmoxiedev-builder-$OS/requests
