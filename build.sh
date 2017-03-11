@@ -1,13 +1,13 @@
 #!/bin/sh
 
+set -x
+
 SRPMDIR=/var/www/html
 REPODIR=/usr/local/MoxieLogic
 
 # Send the build number out of the container.  We'll use this to tag
 # the resulting repo container.
-ls -l $SRPMDIR
 cp $SRPMDIR/BUILDNUM /usr/local
-ls -l /usr/local
 
 if ! test -f $REPODIR/x86_64; then mkdir -p $REPODIR/x86_64; fi
 if ! test -f $REPODIR/noarch; then mkdir -p $REPODIR/noarch; fi
@@ -27,12 +27,14 @@ for TARGET in moxie-elf moxiebox moxie-rtems; do
     RPMCHECK=`find $REPODIR/noarch -name moxielogic-$TARGET-newlib*`
     if test -z "$RPMCHECK"; then
 
+      dnf clean all;
       dnf install -y moxielogic-$TARGET-binutils;
-
+      case 
       if test "$TARGET" == "moxie-elf"; then
         rpmbuild --rebuild $SRPMDIR/bootstrap-moxie-elf-gcc*src.rpm;
         mv /root/rpmbuild/RPMS/x86_64/* $REPODIR/x86_64;
         createrepo $REPODIR;
+        dnf clean all;
       fi
 
       dnf install -y bootstrap-moxie-elf-gcc
@@ -44,10 +46,15 @@ for TARGET in moxie-elf moxiebox moxie-rtems; do
   
       RPMCHECK=`find $REPODIR/x86_64 -name moxielogic-$TARGET-gcc-*`
       if test -z "$RPMCHECK"; then
+        dnf clean all;
         dnf install -y moxielogic-$TARGET-newlib moxielogic-$TARGET-binutils;
         rpmbuild --rebuild $SRPMDIR/moxielogic-$TARGET-gcc*src.rpm;
 	mv /root/rpmbuild/RPMS/x86_64/* $REPODIR/x86_64;
 	createrepo $REPODIR ; exit;
+
+	rpmbuild --define "_sourcedir `pwd`" --define "_srcrpmdir `pwd`" -ba moxielogic-repo.spec
+	mv /root/rpmbuild/RPMS/noarch/* $REPODIR;
+	
       fi
 
     fi
