@@ -29,7 +29,7 @@ for TARGET in moxie-elf moxiebox moxie-rtems; do
 
       dnf clean all;
       dnf install -y moxielogic-$TARGET-binutils;
-      case 
+
       if test "$TARGET" == "moxie-elf"; then
         rpmbuild --rebuild $SRPMDIR/bootstrap-moxie-elf-gcc*src.rpm;
         mv /root/rpmbuild/RPMS/x86_64/* $REPODIR/x86_64;
