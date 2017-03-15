@@ -54,7 +54,6 @@ for TARGET in moxie-elf moxiebox moxie-rtems; do
         dnf install -y moxielogic-$TARGET-newlib moxielogic-$TARGET-binutils;
         rpmbuild --rebuild $SRPMDIR/moxielogic-$TARGET-gcc*src.rpm;
 	mv /root/rpmbuild/RPMS/x86_64/* $REPODIR/x86_64;
-	createrepo $REPODIR ;
 
 	echo ****************************************************************
 	echo ****************************************************************
@@ -67,7 +66,9 @@ for TARGET in moxie-elf moxiebox moxie-rtems; do
 	echo ****************************************************************
 
 	rpmbuild --define "_sourcedir /root" --define "_srcrpmdir /root" -ba /root/moxielogic-repo.spec
-	mv /root/rpmbuild/RPMS/noarch/* $REPODIR;
+	mv /root/rpmbuild/RPMS/noarch/* $REPODIR/noarch;
+
+	createrepo $REPODIR ;
 
 	exit;
 	
