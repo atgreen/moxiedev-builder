@@ -35,7 +35,7 @@ after_success:
       docker tag  atgreen/moxielogic-repos-$OS:`cat $HOME/BUILDNUM` atgreen/moxielogic-repos-$OS:latest;
       docker push atgreen/moxielogic-repos-$OS:`cat $HOME/BUILDNUM`;
       docker push atgreen/moxielogic-repos-$OS:latest;
-      find $HOME/MoxieLogic -name \*rpm | xargs -n 1 package_cloud push MoxieLogic/moxiedev/fedora/24
+      find $HOME/MoxieLogic -name \*rpm | xargs -n 1 package_cloud push MoxieLogic/moxiedev/fedora/24;
     else
       ./.trigger;
     fi;
